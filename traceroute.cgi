@@ -84,7 +84,7 @@ print <<EOM;
 <TR><TD>
 <TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR>
-<TD>Hostname</TD>
+<TD>$text{'hostname'}</TD>
 <TD><INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
 EOM
 print "<TD><INPUT TYPE=checkbox NAME=\"verbosity\" VALUE=\"X\"";

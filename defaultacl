@@ -4,3 +4,4 @@ nslookup=1
 ipsc=1
 nmap=1
 whois=1
+dig=1

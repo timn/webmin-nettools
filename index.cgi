@@ -14,43 +14,7 @@
 #    GNU General Public License for more details.
 
 #    Created  : 22.07.1998
-#
-# Changes
-# =========================================================================================
-#
-# 10.02.1998  - Habe bessere Fehlerroutine eingebaut. Fuehrt nun Programm
-#               bei schwereren Fehlern nicht mehr aus!
-#             - Fehler in Fehlermeldung :) behoben
-#             - Fehlermeldungen abgeaendert
-# 22.07.1999  - New Version of Tools-Port, made it a Webmin Module
-#             - Using English instead of German for international use
-# 27.07.1999  - Added option for allowing use of other services if one fails
-# 01.08.1999  - Because I added "Find self"-Option in configure I had to
-#               change CheckBinaries() and some parts of PrintScreen()
-# 02.08.1999  - Changed the $execline for ping and traceroute
-# 31.08.1999  - Solved the "Access denied" error!
-#             - Changes to Ping execline for Solaris (Thanx to Robert Setterlund
-#               for the information about Solaris)
-#             - New icon for IP Subnet Calculator
-#             - Now it is possible to configure options to be used for quick versions
-#               in configuration module. HOST is a wildcard for the hostname.
-#             - Better handling of programs, not written for every program but with a
-#               for-loop checking for programs etc.
-#             - Changed the handling of errormessages, it's now an array, so all
-#               encountered errors may be reported, not only one.
-#             - Much code clean up for better reading, all is in for-loops now
-# 01.09.1999  - Changed some problem with the init_config on webmin systems < 0.73
-# 28.09.1999  - Fixed Bug, init_command needed binary also if some progs
-#               don't need a special binary (as ipsc and whois)
-# 17.10.1999  - Checked Webmin 0.74 Compliance, all OK
-#             - Added Dig interface
-#             - Added GPL header to all files
-# 15.02.2000  - Long time, since I worked on this module. I will now fix some smaller
-#               bugs and make it ready for 0.76+
-# 09.04.2000  - I had to change all ReadParse calls to ReadParse() (braces are important),
-#               otherwise it doesn't work with Webmin 0.79 !?
-#
-# =========================================================================================
+
 
 require './nettools-lib.pl';
 &ReadParse();
@@ -157,7 +121,7 @@ print <<EOM;
 
 <TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 $tb WIDTH=100%>
 <TR>
-<TD ALIGN=center WIDTH=20%><B>Hostname</B></TD>
+<TD ALIGN=center WIDTH=20%><B>$text{'hostname'}</B></TD>
 EOM
 
 for (my $i=0; $i <= $programcount-1; $i++) {

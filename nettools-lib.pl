@@ -87,5 +87,5 @@ sub is_number {
  return ($_[0] =~ /^\d+$/);
 }
 
-$version="0.79.1";
+$version="0.80.1";
 ### END.

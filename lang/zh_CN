@@ -1,0 +1,196 @@
+
+lang=简体中文
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2000 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=检查 <A HREF=../config.cgi?nettools>模块配置</A>
+
+index_title=网络工具
+index_error=无法装载<I>网络工具</I>
+index_err_fnex=文件 "$1" 不存在 $2
+index_err_fne=文件 "$1" 不可执行. $2
+index_err_dfnf=$1 命令没有找到. $2
+index_ping=Ping
+index_traceroute=Traceroute(路由跟踪)
+index_lookup=Lookup(域名查找)
+index_nmap=Nmap(端口扫描)
+index_ipsc=IP 子网计算
+index_whois=Whois
+index_dig=Dig
+index_err_crit_ping=Ping - 严重错误
+index_err_crit_traceroute=Traceroute - 严重错误
+index_err_crit_nslookup=Lookup - 严重错误
+index_err_crit_nmap=Nmap - 严重错误
+index_err_crit_dig=Dig - 严重错误
+index_running=运行<I>$1</I>
+index_na=N/A
+index_deny_user=不能对 $1 操作
+index_return=webmin 索引
+
+error_nohost=没有指定主机名称,请重试.
+error_longhostname=主机名称太长,最多允许64个字符,重新输入后再试.
+error_badchar=主机名<FONT COLOR="blue">$1</FONT> 包含错误的字符,改正后重试.
+error_crit=$1 - 严重错误
+
+interface=接口
+hostname=主机名
+default=缺省
+running=运行<I>$1</I>
+
+lib_ping=Ping It!
+lib_traceroute=Trace It!
+lib_lookup=Look Up!
+lib_nmap=Scan It!
+lib_dig=Dig It!
+lib_accden=禁止操作: 用户 <I>$1</I> 不能使用 <I>$2</I> 命令
+lib_init_error=装入 <I>网络工具</I> 失败
+lib_init_fnex=文件 "$1" 不存在. $2
+lib_init_fne=文件 "$1" 不可执行 $2
+lib_init_dfnf=$1 命令没有找到 $2
+
+lookup_title=Lookup
+lookup_opt_a=网络地址(A)
+lookup_opt_cname=正则名称(CNAME)
+lookup_opt_any=全部信息(ANY)
+lookup_opt_mx=邮件交换服务器(MX)
+lookup_opt_ns=名称服务(NS)
+lookup_opt_soa=认证域(SOA)
+lookup_opt_hinfo=主机信息(HINFO)
+lookup_opt_minfo=邮箱信息(MINFO)
+lookup_opt_ptr=IP地址解析为主机名(PTR)
+lookup_opt_txt=文本信息(TXT)
+lookup_opt_uinfo=用户信息(UINFO)
+lookup_opt_wks=通常的服务(WKS)
+lookup_nameserver=域名服务器
+lookup_default=缺省
+lookup_timeout=超时?
+lookup_return=模块索引
+lookup_inv_timeout=超时值错误,使用标准值,最大是99.
+
+dig_title=Dig
+dig_name=Dig
+dig_type=类型
+dig_nameserver=域名服务器
+dig_dottednot="." 语法?
+dig_return=模块索引
+dig_err_dotted=使用"."语法时必须使用一个IP地址
+
+ipsc_lib_err_b=计算子网失败: 子网位数超过了允许值.<B>16</B>是<B>B</B>类的最大值
+ipsc_lib_err_c=计算子网失败: 子网位数超过了允许值.<B>8</B>是<B>C</B>类的最大值
+ipsc_lib_err_nan=主机子网计算失败: 该值不是数字 (NaN).
+ipsc_lib_err_toobig=主机子网计算失败: 该值超过了最大允许值 ". &pow(2, 24) . "."
+ipsc_lib_err_nothing=什么也没有怎么计算?
+ipsc_lib_err_startgtend=错误: 起始值一定要小于结束值.
+ipsc_lib_err_bitsnan=给定的输出失败: $1 不是数字 (NaN). 请联络 <A HREF=\"
+ailto:tim\@niemueller.de\">Tim Niemueller</A>
+ipsc_lib_classinfo=<B>$1 类</B> 网络信息
+ipsc_lib_iprange=IP范围
+ipsc_lib_classmask=类掩码
+ipsc_lib_hexclassmask=16进制类掩码
+ipsc_lib_netmaskinfo=该类 <I>$1 位<I>网络掩码的信息
+ipsc_lib_subnets=子网数量
+ipsc_lib_hosts=每个子网中的主机数量
+ipsc_lib_netmask=网络掩码
+ipsc_lib_bitmap=位图 (n = network, s = subnet, h = host)
+
+ipsc_title=IP 子网计算
+ipsc_class_n_bits=使用<I>类</I> 和 <I>位</I>计算网络掩码
+ipsc_class=类
+ipsc_subnetbits=子网位
+ipsc_calc=计算子网
+ipsc_bynumber=使用 <I>主机数目</I>计算子网
+ipsc_number=主机数目
+ipsc_return=模块索引
+
+nmap_title=端口扫描
+nmap_tcpconnect=TCP连接
+nmap_syn=TCP同步
+nmap_stealth=Stealth FIN
+nmap_xmastree=Xmas Tree
+nmap_null=Null mode
+nmap_ping=Ping
+nmap_udp=UDP
+nmap_scantype=扫描类别
+nmap_verbout=详细输出?
+nmap_noping=在全部扫描之前对主机不使用PING命令?
+nmap_ackport=在下面的端口号发出ACK包
+nmap_ping=使用 ping 检查主机是否处于活动状态
+nmap_ackping_parallel=同时使用ACK和ICMP的 ping 
+nmap_osdet=试图通过 TCP/IP-fingerprint 探测操作系统类型
+nmap_ident=TCP 翻转同一扫描
+nmap_tinyfrag=对于 SYN, FIN. XMAS 或 NULL 扫描时使用小的IP包
+nmap_scanports=扫描下列端口号
+nmap_fastscan=快速扫描: 仅仅扫描在 /etc/services 列出的端口号
+nmap_decoys=诱骗
+nmap_interface=使用的网络接口
+nmap_sport=使用的源端口
+nmap_maxsock=使用的最大的 Socket
+nmap_return=模块索引
+nmap_err_ack=不使用ACK包的时候为什么还允许它呢?
+nmap_err_lowport=端口号一定要大于 0. 使用标准值.
+nmap_err_highport=端口号一定要小于65536. 使用标准值.
+nmap_err_port=不使用ACK包的时候为什么还允许它呢?
+nmap_err_ports=端口号之间一定要用逗号分开.使用标准值
+nmap_err_decoys=当不使用它时为什么允许诱骗呢?
+nmap_err_iface=当不使用接口时为什么还允许它呢?
+nmap_err_sport=当不使用局部源端口号为什么还允许它呢?
+nmap_err_maxsock=当不使用最大 sockets 时为什么还允许它?
+nmap_err_lowsock=Socket 一定要大于 0 . 使用标准值.
+nmap_err_bigsock=Socket 一定要小于16 . 使用标准值.
+
+ping_title=Ping
+ping_verbout=详细输出?
+ping_numout=仅数字输出?
+ping_bypass=跳过路由表?
+ping_numpack=多少包?
+ping_packsize=包大小?
+ping_packsec=发送每包之间间隔的秒数?
+ping_pattern=16进制的发送模板?
+ping_nasolaris=N/A on Solaris
+ping_return=模块索引
+ping_err_tmpack=包太多. 使用标准值(5), 最大是99.
+ping_err_zeropack=不允许 0 包.  使用标准值(5), 最大 99.
+ping_err_nothing=什么也不送出? 使用标准值
+ping_err_bigpack=包台大. 使用标准值 (56 字节). 最大 9999 字节.
+ping_err_time=超时. 使用标准值(1 秒). 最大 99 秒.
+ping_err_bigpatt=模板字节太多.使用标准值(随机字节).最大 16 字节(32 个16进制符号)
+
+traceroute_title=路由跟踪
+traceroute_verbout=详细输出?
+traceroute_numout=仅数字输出?
+traceroute_bypass=跳过路由表?
+traceroute_icmp=使用ICMP 而不是 UDP?
+traceroute_toggle=锁定校验和?
+traceroute_debug=Socket 级别的调试?
+traceroute_hops=多少个阶跃?
+traceroute_packlen=包长度?
+traceroute_waittime=在发送每包之间间隔多少秒?
+traceroute_ittl=初使化存活周期?
+traceroute_nofreebsd=N/A for FreeBSD
+traceroute_nodebian=N/A for Debian Linux
+traceroute_interface=接口
+traceroute_err_hops=HOPs太多,使用标准值 (30). 最大 99.
+traceroute_err_iface=接口名称台长.最大6个字符.
+traceroute_err_time=秒数太多. 使用标准侄(5). 最大 99.
+traceroute_err_ittl=存活周期的初使值太大. 使用标准值.最大 99.
+traceroute_err_length=包太长. 使用标准值(40 bytes). 最大 999 字节.
+traceroute_return=模块索引
+
+whois_error=装入<I>Whois 接口</I>失败
+whois_title=Whois
+whois_err_xwhois=网络::XWhois Perl 模块在本系统无效.
+whois_domain=域 
+whois_server=服务器
+whois_button=谁是?
+whois_return=模块索引
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
