@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Traceroute
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -16,23 +16,15 @@
 #    Created  : 27.07.1999
 
 
-#######################
-#    Configuration    #
-#######################
-
 require './nettools-lib.pl';
 &init_command('traceroute');
 
-#################################################################
-# Subroutines
-
-&ReadParse;
+&ReadParse();
 
 if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
 else { &CheckAll; &PrintScreen }
 
 ##################################################################
-# Print Screen
 
 sub PrintScreen {
 
@@ -240,3 +232,4 @@ $execline = "$binary $trace_opt 2>&1";
 
 } # End Sub CheckAll
 
+### End of traceroute.cgi ###

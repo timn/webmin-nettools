@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Nmap
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,9 +15,6 @@
 
 #    Created  : 31.08.1999
 
-#######################
-#    Configuration    #
-#######################
 
 require './nettools-lib.pl';
 &init_command('nmap');
@@ -35,7 +32,7 @@ require './nettools-lib.pl';
     -sU         => $text{'nmap_udp'}
     );
 
-&ReadParse;
+&ReadParse();
 
 $options = "";
 for (keys %NmapTypes) {
@@ -53,7 +50,6 @@ if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
 else { &CheckAll; &PrintScreen }
 
 ##################################################################
-# Print Screen
 
 sub PrintScreen {
 
@@ -318,3 +314,4 @@ $execline ="$binary $nmap_opt $in{'host'} 2>&1";
 } # End IF Nmap
 } # End Sub CheckAll
 
+### End of nmap.cgi ###

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Whois
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
 
 #     Created  : 02.09.1999
 
-
-#######################
-#    Configuration    #
-#######################
 
 require './nettools-lib.pl';
 &init_command('whois');
@@ -48,7 +44,7 @@ $server_options="";
 map {$server_options .= "<OPTION VALUE=\"$_\">$_\n" } @servers;
 
 
-&ReadParse;
+&ReadParse();
 
 if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
 else { &whoisit; &PrintScreen }

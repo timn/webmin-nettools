@@ -24,11 +24,9 @@
 
 #    Created  : 02.08.1999
 
-
-
 require './nettools-lib.pl';
 
-&ReadParse;
+&ReadParse();
 
 # I misuse this lists as constants
 @classes=("A", "B", "C");
@@ -273,3 +271,5 @@ sub set_infstruct
 
 @tmpstruct;
 }
+
+### End of ipsc-lib.pl ###

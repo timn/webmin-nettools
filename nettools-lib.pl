@@ -5,11 +5,11 @@
 #                         http://www.niemueller.de                             #
 #                                                                              #
 ################################################################################
-#              Copyright (C) 1998-2000 by Tim Niemueller (GPL)                 #
+#              Copyright (C) 1999-2000 by Tim Niemueller (GPL)                 #
 ################################################################################
 
 #    Network Utilities Webmin Module
-#    Copyright (C) 1998-2000 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -87,5 +87,5 @@ sub is_number {
  return ($_[0] =~ /^\d+$/);
 }
 
-1;
+$version="0.79.1";
 ### END.

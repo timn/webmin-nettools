@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -47,23 +47,19 @@
 #             - Added GPL header to all files
 # 15.02.2000  - Long time, since I worked on this module. I will now fix some smaller
 #               bugs and make it ready for 0.76+
+# 09.04.2000  - I had to change all ReadParse calls to ReadParse() (braces are important),
+#               otherwise it doesn't work with Webmin 0.79 !?
 #
 # =========================================================================================
 
-
-#######################
-#    Configuration    #
-#######################
-
 require './nettools-lib.pl';
+&ReadParse();
 
-&ReadParse;
 
 if($ENV{'REQUEST_METHOD'} eq 'GET') { &CheckBinaries }
 else { &CheckAll; &PrintScreen }
 
 ##################################################################
-# Print Screen
 
 sub CheckBinaries {
  if (!$allow)
@@ -113,6 +109,9 @@ my @links  = ("ping.cgi", "traceroute.cgi", "lookup.cgi", "nmap.cgi", "ipsc.cgi"
 print "<BR><HR>\n";
 &icons_table(\@links, \@texts, \@images, 4);
 print "<HR>\n";
+print "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>";
+print "<TR><TD ALIGN=right><FONT FACE=\"Arial,Helvetica\" COLOR=#505050>";
+print "[ Network Utilities $version ]</FONT></TD></TR></TABLE>\n";
 
 if ($execline && !$critical_err) {
 
@@ -239,3 +238,4 @@ for (my $i=0; $i <= $programcount-1; $i++)
 
 } # End Sub CheckAll
 
+### End of index.cgi ###

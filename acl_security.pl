@@ -1,6 +1,6 @@
 
 #    Network Utilities Webmin Module - acl_security.pl
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by

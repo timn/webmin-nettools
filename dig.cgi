@@ -2,7 +2,7 @@
 #
 
 #    Network Utilities Webmin Module - Dig
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,11 +15,6 @@
 #    GNU General Public License for more details.
 
 #    Created: 17.10.1999
-
-
-#######################
-#    Configuration    #
-#######################
 
 require './nettools-lib.pl';
 &init_command('dig');
@@ -48,7 +43,7 @@ for (sort keys %LookupOpt) {
 
 
 
-&ReadParse;
+&ReadParse();
 
 if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
 else { &CheckAll; &PrintScreen }
@@ -183,4 +178,4 @@ $execline = "$binary $dig_opt 2>&1";
 
 
 
-### END.
+### End of dig.cgi ###

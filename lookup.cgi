@@ -16,12 +16,9 @@
 #    Created  : 27.07.1999
 
 
-#######################
-#    Configuration    #
-#######################
-
 require './nettools-lib.pl';
 &init_command('nslookup');
+
 
 #################################################################
 # Subroutines
@@ -47,7 +44,7 @@ for (sort keys %LookupOpt) {
 
 
 
-&ReadParse;
+&ReadParse();
 
 if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
 else { &CheckAll; &PrintScreen }
@@ -180,4 +177,4 @@ else { $execline = "$binary $lookup_opt $in{'host'} 2>&1" }
 
 
 
-### END.
+### End of lookup.cgi ###
