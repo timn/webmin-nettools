@@ -54,6 +54,20 @@
                Leo Liang <leo.liang@turbolinux.com.cn> for this!
  21.07.2000  - Removed OS support restrictions. This module should run on any Webmin
  (0.80.2)      supported platform. This version requires Webmin 0.80+.
+ 14.10.2001  - Wow, what a long time not update, but finally it has gotten time for an
+ (0.88.1)      update!
+             - Do some updates in dig.cgi (remove PrintScreen sub, that is bogus)
+             - Update nmap.cgi: Remove bogus PrintScreen Sub
+             - Update ping.cgi: Remove PrintScreen, basically rewrite of CheckAll,
+               fixed error handling, use &terror() instead of own routine that fails
+               sometimes and executes harmful code
+             - Update traceroute.cgi: Remove PrintScreen, rewrite CheckAll, fix error
+               handling
+             - remove config links in sub pages
+             - remove email links, my mailbox is full enough, they can find my addres
+               on my website if they really want
+             - Make ping and traceroute pages to support the IPv6 equivalents
+             - Cleaned up index.cgi, fixed error handling, added IPv6 support
 
  =========================================================================================
 

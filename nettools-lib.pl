@@ -5,11 +5,11 @@
 #                         http://www.niemueller.de                             #
 #                                                                              #
 ################################################################################
-#              Copyright (C) 1999-2000 by Tim Niemueller (GPL)                 #
+#              Copyright (C) 1999-2001 by Tim Niemueller (GPL)                 #
 ################################################################################
 
 #    Network Utilities Webmin Module
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -55,14 +55,12 @@ $user = $ENV{'REMOTE_USER'};
 $binary = "";
 
 
-sub init_command
-{
+sub init_command {
  
  $prog = $config{"$_[0]_path"};
  if ($prog) { $binary=$prog } else { $binary="$_[0]" }
 
- if (!$access{$_[0]})
- {
+ if (!$access{$_[0]}) {
   &error(&text('lib_accden', $user, $_[0]));
  }
 
@@ -87,5 +85,5 @@ sub is_number {
  return ($_[0] =~ /^\d+$/);
 }
 
-$version="0.80.1";
+$version="0.88.1";
 ### END.

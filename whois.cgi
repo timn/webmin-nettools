@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Whois
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ if ($@) {
 }
 
 if (!$config{'whois_servers'}) {
- @servers=("whois.networksolutions.com", "whois.internic.net", "whois.nic.de", "whois.ripe.net");
+ @servers=("whois.networksolutions.com", "whois.corenic.net", "whois.internic.net", "whois.nic.de", "whois.ripe.net");
 } else {
  my $tmpstr=$config{'whois_servers'};
  $tmpstr =~ s/\ //g;
@@ -54,8 +54,8 @@ else { &whoisit; &PrintScreen }
 
 sub PrintScreen {
 
-&header($text{'whois_title'}, undef, undef, 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+&header($text{'whois_title'}, undef, undef, 0, 0, 0,
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
 $Errors="<H3><FONT COLOR=\"red\"><BR>";

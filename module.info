@@ -3,4 +3,4 @@ desc=Network Utilities
 desc_de=Netzwerk Werkzeuge
 desc_zh_CN=ÍøÂç¹¤¾ß
 category=net
-depend=0.80
+depend=0.89

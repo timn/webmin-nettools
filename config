@@ -10,3 +10,4 @@ traceroute_path=
 nslookup_opt=
 nmap_opt=
 dig_opt=
+ipv6=0

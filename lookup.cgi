@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Lookup
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,9 +19,6 @@
 require './nettools-lib.pl';
 &init_command('nslookup');
 
-
-#################################################################
-# Subroutines
 
 %LookupOpt = (
     a           => $text{'lookup_opt_a'},
@@ -43,28 +40,16 @@ for (sort keys %LookupOpt) {
 }
 
 
-
 &ReadParse();
 
-if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
-else { &CheckAll; &PrintScreen }
+my $execline = &CheckAll() if($ENV{'REQUEST_METHOD'} ne 'GET');
 
-##################################################################
-# Print Screen
 
-sub PrintScreen {
-
-$Errors="<H3><FONT COLOR=\"red\"><BR>";
-foreach $tmperr (@error) {
- $Errors .= $tmperr . "<BR>";
-}
-$Errors .= '</FONT></H3>';
-
-&header($text{'lookup_title'}, undef, "lookup", 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+&header($text{'lookup_title'}, undef, "lookup", 0, 0, 0,
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
-if ($execline && !$critical_err) {
+if ($execline) {
 
  print "<BR><BR>".&text('running', $tet{'lookup_title'});
  print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
@@ -130,8 +115,6 @@ print <<EOM;
 </TD></TR>
 </TABLE>
 </TD></TR></TABLE>
-</TD></TR></TABLE>
-<!-- </TD></TR></TABLE> -->
 </TD></TR>
 
 </TABLE>
@@ -140,39 +123,37 @@ print <<EOM;
 EOM
 
 &footer("index.cgi", $text{'lookup_return'});
-} # end of sub PrintScreen
+
+
+
+
+
+
+
 
 
 sub CheckAll {
 
-@error=();
+  my $execline="";
+  my $lookup_opt="";
 
-# Check host, or IP
-if ($in{'host'} eq '') {
-        push(@error, "$text{'error_nohost'}\n");
-	$critical_err = 1;
-} elsif (length $in{'host'} >64) {
-        push(@error, "$text{'error_longhostname'}\n");
-	$critical_err = 1;
-} elsif ($in{'host'} =~ /[^\w\-\.]/) {
-        push(@error, &text('error_badchar', $in{'host'})."\n");
-	$critical_err = 1;
-}
+  # Check host, or IP
+  &terror('error_nohost') if ($in{'host'} eq '');
+  &terror('error_longhostname') if (length($in{'host'}) > 64);
+  &terror('error_badchar', $in{'host'}) if ($in{'host'} !~ /^([a-z]*[A-Z]*[0-9]*[+.-]*)+$/);
 
+  $lookup_opt = "-query=$in{'type'}";
 
-$lookup_opt = "-query=$in{'type'}";
+  if ($in{'timeout'} ne '') {
+    &terror('lookup_inv_timeout') if (length($in{'timeout'}) > 2);
 
-if ($in{'timeout'} ne '') {
- if (length $in{'timeout'} > 2) {
-        push(@error, "$text{'lookup_inv_timeout'}");
- } else {
-        $lookup_opt = "$lookup_opt -timeout=$in{'timeout'}";
- }
-}
+    $lookup_opt = "$lookup_opt -timeout=$in{'timeout'}";
+  }
 
-if (!$in{'nsdefault'}) { $execline = "$binary $lookup_opt $in{'host'} $in{'nameserver'} 2>&1" }
-else { $execline = "$binary $lookup_opt $in{'host'} 2>&1" }
+  if (!$in{'nsdefault'}) { $execline = "$binary $lookup_opt $in{'host'} $in{'nameserver'} 2>&1" }
+  else { $execline = "$binary $lookup_opt $in{'host'} 2>&1" }
 
+return $execline;
 } # End Sub CheckAll
 
 

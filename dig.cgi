@@ -2,7 +2,7 @@
 #
 
 #    Network Utilities Webmin Module - Dig
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -18,9 +18,6 @@
 
 require './nettools-lib.pl';
 &init_command('dig');
-
-#################################################################
-# Subroutines
 
 %LookupOpt = (
     a           => $text{'lookup_opt_a'},
@@ -45,13 +42,7 @@ for (sort keys %LookupOpt) {
 
 &ReadParse();
 
-if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
-else { &CheckAll; &PrintScreen }
-
-##################################################################
-# Print Screen
-
-sub PrintScreen {
+&CheckAll() if ($ENV{'REQUEST_METHOD'} ne 'GET');
 
 $Errors="<H3><FONT COLOR=\"red\"><BR>";
 foreach $tmperr (@error) {
@@ -60,7 +51,7 @@ foreach $tmperr (@error) {
 $Errors .= '</FONT></H3>';
 
 &header($text{'dig_title'}, undef, undef, 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
 if ($execline && !$critical_err) {
@@ -128,8 +119,6 @@ print <<EOM;
 </TD></TR>
 </TABLE>
 </TD></TR></TABLE>
-</TD></TR></TABLE>
-<!-- </TD></TR></TABLE> -->
 </TD></TR>
 
 </TABLE>
@@ -138,7 +127,19 @@ print <<EOM;
 EOM
 
 &footer("", $text{'dig_return'});
-} # end of sub PrintScreen
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 sub CheckAll {

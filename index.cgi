@@ -54,14 +54,8 @@ sub CheckBinaries {
 
 sub PrintScreen {
 
-$Errors="<H3><FONT COLOR=\"red\">\n";
-foreach $tmperr (@error) {
- $Errors .= $tmperr . "<BR>";
-}
-$Errors .= '</FONT></H3>';
-
 &header($text{'index_title'}, undef, "intro", 1, 1, undef,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 my @images = ("images/icon.ping.gif", "images/icon.traceroute.gif", "images/icon.lookup.gif",
               "images/icon.nmap.gif", "images/icon.ipsc.gif", "images/icon.whois.gif",
@@ -77,36 +71,29 @@ print "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>";
 print "<TR><TD ALIGN=right><FONT FACE=\"Arial,Helvetica\" COLOR=#505050>";
 print "[ Network Utilities $version ]</FONT></TD></TR></TABLE>\n";
 
-if ($execline && !$critical_err) {
+if ($execline) {
 
- print "<BR><BR>";
+  print "<BR><BR>";
 
-for (my $i=0; $i <= $programcount-1; $i++)
-{
- if ($in{"$programnames[$i]"}) {
-  print &text('index_running', $programnames[$i]);
- }
-}
-
- print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
-
- print "<PRE>\n$execline\n";
-   open (CHILD, "$execline |");
-    while (<CHILD>) {
-     print $_;
+  for (my $i=0; $i <= $programcount-1; $i++) {
+    if ($in{"$programnames[$i]"}) {
+      print &text('index_running', $programnames[$i]);
     }
-   close (CHILD);
- print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
+  }
 
-} elsif ($critical_err) {
+  print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
 
- foreach $c ("ping", "traceroute", "nslookup", "nmap", "dig") {
-  if ($in{$c}) { print $text{"index_err_crit_$c"} }
- }
+  print "<PRE>\n$execline\n";
+    open (CHILD, "$execline |");
+     while (<CHILD>) {
+       print $_;
+     }
+    close (CHILD);
+  print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
 
- print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
- print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
 }
+
+
 
 print <<EOM;
 
@@ -173,33 +160,26 @@ EOM
 
 sub CheckAll {
 
-# Check host, or IP
-if ($in{'host'} eq '') {
-        push(@error, "$text{'error_nohost'}\n");
-	$critical_err = 1;
-} elsif (length $in{'host'} >64) {
-        push(@error, "$text{'error_longhostname'}\n");
-} elsif ($in{'host'} =~ /[^\w\-\.]/) {
-        push(@error, &text('error_badchar', $in{'host'})."\n");
-}
+  # Check host, or IP
+  &terror('error_nohost') if (! $in{'host'});
+  &terror('error_longhostname') if (length($in{'host'}) > 64);
+  &terror('error_badchar', $in{'host'}) if ($in{'host'} =~ /[^\w\-\.]/);
 
-for (my $i=0; $i <= $programcount-1; $i++)
-{
- if ($in{"$programnames[$i]"})
- {
-  if ($programs[$i]) { $binary=$programs[$i] } else { $binary=$programnames[$i] }
+  for (my $i=0; $i <= $programcount-1; $i++) {
+    if ($in{"$programnames[$i]"}) {
+      if ($programs[$i]) { $binary=$programs[$i] } else { $binary=$programnames[$i] }
 
-  if ($config{"$programnames[$i]_opt"}) {
-   $options = $config{"$programnames[$i]_opt"};
-  } else {
-   $options = $standopt[$i];
-  }
+      if ($config{"$programnames[$i]_opt"}) {
+        $options = $config{"$programnames[$i]_opt"};
+      } else {
+        $options = $standopt[$i];
+      }
 
-  $options =~ s/HOST/$in{'host'}/;
-  $execline = "$binary $options";
- }
-} ## End For
-
+      $options =~ s/HOST/$in{'host'}/;
+      $binary= (($binary =~ /(ping|traceroute)$/) && $config{'ipv6'}) ? "${binary}6" : $binary;
+      $execline = "$binary $options";
+    }
+  } ## End For
 } # End Sub CheckAll
 
 ### End of index.cgi ###

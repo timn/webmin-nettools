@@ -11,3 +11,4 @@ dig_opt=Options for quick lookup (dig) on index ("HOST" is wildcard for hostname
 allow_other_if_failed=Allow other programs to be used if check for one binary fails,1,1-Yes,0-No
 keepresults=Keep results on IP Subnet Calculator if other function is called,1,1-Yes,0-No
 whois_servers=Servers for Whois-queries (Default or comma-separated list),3,Default
+ipv6=Use IPv6 Tools?,1,1-Yes,0-No

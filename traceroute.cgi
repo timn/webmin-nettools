@@ -21,24 +21,14 @@ require './nettools-lib.pl';
 
 &ReadParse();
 
-if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
-else { &CheckAll; &PrintScreen }
+$binary = $config{'ipv6'} ? "${binary}6" : $binary;
+my $execline = &CheckAll() if($ENV{'REQUEST_METHOD'} ne 'GET');
 
-##################################################################
-
-sub PrintScreen {
-
-$Errors="<H3><FONT COLOR=\"red\"><BR>";
-foreach $tmperr (@error) {
- $Errors .= $tmperr . "<BR>";
-}
-$Errors .= '</FONT></H3>';
-
-&header($text{'traceroute_title'}, undef, "traceroute", 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+&header($text{'traceroute_title'}, undef, "traceroute", 0, 0, 0,
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
-if ($execline && !$critical_err) {
+if ($execline) {
 
  print "<BR><BR>";
  if ($in{'trace'}) { print &text('running', $text{'traceroute_title'}) }
@@ -53,12 +43,6 @@ if ($execline && !$critical_err) {
    close (CHILD);
  print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
 
-} elsif ($critical_err) {
- print "<BR><BR>";
- if ($in{'trace'}) { print &text('error_crit', $text{'traceroute_title'}) }
-
- print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
- print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
 }
 
 print <<EOM;
@@ -148,7 +132,6 @@ print <<EOM;
 </TABLE>
 </TD></TR></TABLE>
 </TD></TR></TABLE>
-<!-- </TD></TR></TABLE> -->
 </TD></TR>
 
 </TABLE>
@@ -156,80 +139,59 @@ print <<EOM;
 
 EOM
 
-&footer("index.cgi", $text{'traceroute_return'});
+&footer("", $text{'traceroute_return'});
 
-} # end of sub PrintScreen
+
+
+
 
 sub CheckAll {
 
-# Check host, or IP
-if ($in{'host'} eq '') {
-        push(@error, "$text{'error_nohost'}\n");
-	$critical_err = 1;
-} elsif (length $in{'host'} >64) {
-        push(@error, "$text{'error_longhostname'}\n");
-	$critical_err = "1";
-} elsif ($in{'host'} =~ /[^\w\-\.]/) {
-        push(@error, &text('error_badchar', $in{'host'})."\n");
-	$critical_err = "1";
-}
+  my $trace_opt="";
+
+  # Check host, or IP
+  &terror('error_nohost') if (! $in{'host'});
+  &terror('error_longhostname') if (length($in{'host'}) > 64);
+  &terror('error_badchar', $in{'host'}) if ($in{'host'} !~ /^([a-z]*[A-Z]*[0-9]*[+.-]*)+$/);
+
+  if ($in{'hops'} ne '') {
+    &terror('traceroute_err_hops') if (length($in{'hops'}) > 2);
+
+    $trace_opt = "-m $in{'hops'}";
+  }
+
+  if ($in{'iface'} ne '') {
+    &terror('traceroute_err_iface') if (length $in{'iface'} > 6);
+    $trace_opt = "$trace_opt -i $in{'iface'}";
+  }
+
+  if ($in{'wait'} ne '') {
+    &terror('traceroute_err_time') if (length $in{'wait'} > 2);
+    $trace_opt = "$trace_opt -w $in{'wait'}";
+  }
+
+  if ($in{'inittime'} ne '') {
+    &terror('traceroute_err_ittl') if (length $in{'inittime'} > 2);
+    $trace_opt = "$trace_opt -f $in{'inittime'}";
+  }
+
+  if ($in{'verbosity'} eq 'X') { $trace_opt = "$trace_opt -v" }
+  if ($in{'numeric'} eq 'X') { $trace_opt = "$trace_opt -n" }
+  if ($in{'bypass'} eq 'X') { $trace_opt = "$trace_opt -r" }
+  if ($in{'icmp'} eq 'X') { $trace_opt = "$trace_opt -I" }
+  if ($in{'toggle'} eq 'X') { $trace_opt = "$trace_opt -x" }
+  if ($in{'debug'} eq 'X') { $trace_opt = "$trace_opt -d" }
 
 
-if ($in{'trace'}) {
-if ($in{'hops'} ne '') {
- if (length $in{'hops'} > 2) {
-        push(@error, $text{'traceroute_err_hops'});
- } else {
-        $trace_opt = "-m $in{'hops'}";
- }
-}
+  if ($in{'length'} ne '') {
+    &terror('traceroute_err_length') if (length($in{'length'}) > 3);
 
-if ($in{'iface'} ne '') {
- if (length $in{'iface'} > 6) {
-        push(@error, $text{'traceroute_err_iface'});
- } else {
-        $trace_opt = "$trace_opt -i $in{'iface'}";
- }
-}
+    $trace_opt = "$trace_opt $in{'host'} $in{'length'}";
+  }
 
-if ($in{'wait'} ne '') {
- if (length $in{'wait'} > 2) {
-        push(@error, $text{'traceroute_err_time'});
- } else {
-        $trace_opt = "$trace_opt -w $in{'wait'}";
- }
-}
-
-if ($in{'inittime'} ne '') {
- if (length $in{'inittime'} > 2) {
-        push(@error, $text{'traceroute_err_ittl'});
- } else {
-        $trace_opt = "$trace_opt -f $in{'inittime'}";
- }
-}
-
-if ($in{'verbosity'} eq 'X') { $trace_opt = "$trace_opt -v" }
-if ($in{'numeric'} eq 'X') { $trace_opt = "$trace_opt -n" }
-if ($in{'bypass'} eq 'X') { $trace_opt = "$trace_opt -r" }
-if ($in{'icmp'} eq 'X') { $trace_opt = "$trace_opt -I" }
-if ($in{'toggle'} eq 'X') { $trace_opt = "$trace_opt -x" }
-if ($in{'debug'} eq 'X') { $trace_opt = "$trace_opt -d" }
-
-
-if ($in{'length'} ne '') {
- if (length $in{'length'} > 3) {
-        push(@error, $text{'traceroute_err_length'});
- } else {
-        $trace_opt = "$trace_opt $in{'host'} $in{'length'}";
- }
-}
-
-
-$execline = "$binary $trace_opt 2>&1";
-
-}
-
-
+return "$binary $trace_opt 2>&1";
 } # End Sub CheckAll
+
+
 
 ### End of traceroute.cgi ###

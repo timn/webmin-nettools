@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Nmap
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 require './nettools-lib.pl';
 &init_command('nmap');
 
-#################################################################
-# Subroutines
 
 %NmapTypes = (
     -sT         => $text{'nmap_tcpconnect'},
@@ -46,12 +44,7 @@ for (keys %NmapTypes) {
 }
 
 
-if($ENV{'REQUEST_METHOD'} eq 'GET') { &PrintScreen }
-else { &CheckAll; &PrintScreen }
-
-##################################################################
-
-sub PrintScreen {
+&CheckAll() if ($ENV{'REQUEST_METHOD'} ne 'GET');
 
 $Errors="<H3><FONT COLOR=\"red\">\n";
 foreach $tmperr (@error) {
@@ -59,8 +52,8 @@ foreach $tmperr (@error) {
 }
 $Errors .= '</FONT></H3>';
 
-&header($text{'nmap_title'}, undef, undef, 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+&header($text{'nmap_title'}, undef, undef, 0, 0, 0,
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
 if ($execline && !$critical_err) {
@@ -180,7 +173,6 @@ print <<EOM;
 </TABLE>
 </TD></TR></TABLE>
 </TD></TR></TABLE>
-<!-- </TD></TR></TABLE> -->
 </TD></TR>
 
 </TABLE>
@@ -192,7 +184,12 @@ EOM
 
 &footer("index.cgi", $text{'nmap_return'});
 
-} # end of sub PrintScreen
+
+
+
+
+
+
 
 
 sub CheckAll {

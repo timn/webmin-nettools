@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - IP Subnet Calculator
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ for (my $i = 0; $i <= 2; $i++) {
        $class_options .= "<OPTION VALUE=\"$i\"$selected>$classes[$i] ($classrange[$i])\n";
 }
 
-&header($text{'ipsc_title'}, undef, "ipsc", 1, 0, 0,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
+&header($text{'ipsc_title'}, undef, "ipsc", 0, 0, 0,
+        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n";
 
 print <<EOM;
