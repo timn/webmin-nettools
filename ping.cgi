@@ -18,22 +18,26 @@
 
 require './nettools-lib.pl';
 &init_command('ping');
+$|=1;
 
 &ReadParse();
 
 $binary = $config{'ipv6'} ? "${binary}6" : $binary;
-my $execline = &CheckAll() if ($ENV{'REQUEST_METHOD'} ne 'GET');
+
+my $execline="";
+if ($in{'host'}) {
+  $execline = &CheckAll();
+}
 
 
 &header($text{'ping_title'}, undef, "ping", 0, 0, 0,
-        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
-print "<BR><HR>\n";
+        "<a href=\"about.cgi\">About</a>");
 
 if ($execline) {
 
  print "<BR><BR>".&text('running', $text{'ping_title'});
 
- print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
+ print "<HR SIZE=4 NOSHADE ALIGN=center>\n";
 
  print "<PRE>\n$execline\n";
    open (CHILD, "$execline |");
@@ -48,25 +52,13 @@ if ($execline) {
 print <<EOM;
 
 <FORM METHOD="POST" ACTION="$progname">
+<input type="hidden" name="doping" value="1">
 
 <BR>
-<TABLE BORDER=1 CELLPADDING=3 CELLSPACING=0 $cb WIDTH=100%>
-<TR><TD>
-
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
-<TR><TD $tb>
-
-<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0 $tb WIDTH=100%>
-<TR>
-<TD><B>$text{'ping_title'} $text{'interface'}</B></TD>
-</TR></TABLE>
-
-</TD></TR>
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 
 <TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR>
 <TD>$text{'hostname'}</TD>
 <TD><INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
@@ -86,23 +78,24 @@ print "> $text{'ping_bypass'}</TD>";
 print <<EOM;
 </TR></TABLE>
 </TD></TR>
-<TR><TD><TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+<tr><td><br/>&nbsp;</td></tr>
+<TR><TD><TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2>
 EOM
 
 print "<TR><TD>$text{'ping_numpack'}</TD>";
+
 print "</TD><TD ALIGN=left> <INPUT TYPE=text NAME=\"count\" SIZE=5 VALUE=\"";
 if ($in{'count'}) {print "$in{'count'}"} else {print "5"}
+print "\"></TD></tr><tr><TD>$text{'ping_packsize'}</TD>";
 
-print "\"></TD><TD>$text{'ping_packsize'}</TD>";
 print "<TD ALIGN=left> <INPUT TYPE=text NAME=\"size\" SIZE=8 VALUE=\"";
 if ($in{'size'}) {print "$in{'size'}"} else {print "56"}
-print "\"></TD><TD ROWSPAN=2 ALIGN=center VALIGN=center><INPUT TYPE=submit NAME=\"ping\" VALUE=\"   $text{'lib_ping'}   \"></TD></TR>";
+print "\"></TD></tr><tr><TD>$text{'ping_pattern'}</TD>";
 
 print "<TR><TD>$text{'ping_packsec'}</TD>";
 print "<TD ALIGN=left> <INPUT TYPE=text NAME=\"wait\" SIZE=5 VALUE=\"";
 if ($in{'wait'}) {print "$in{'wait'}"} else {print "1"}
-
-print "\"></TD><TD>$text{'ping_pattern'}</TD>";
+print "\"></TD></tr><tr><TD>$text{'ping_pattern'}</TD>";
 
 if ($gconfig{'os_type'} eq "solaris") {
  print "<TD ALIGN=left> $text{'ping_nasolaris'}</TD></TR>";
@@ -112,13 +105,13 @@ if ($gconfig{'os_type'} eq "solaris") {
 
 print <<EOM;
 </TABLE>
-</TD></TR></TABLE>
-</TD></TR></TABLE>
-<!-- </TD></TR></TABLE> -->
 </TD></TR>
 
 </TABLE>
+<br/>
+<INPUT TYPE=submit NAME="ping" VALUE="   $text{'lib_ping'}   ">
 </FORM>
+<br/>
 
 EOM
 
@@ -146,7 +139,7 @@ sub CheckAll {
   &terror('error_longhostname') if (length($in{'host'}) > 64);
   &terror('error_badchar', $in{'host'}) if ($in{'host'} !~ /^([a-z]*[A-Z]*[0-9]*[+.-]*)+$/);
 
-  &terror('ping_err_zeropack') if (! $in{'count'});
+  if (! $in{'count'}) { $in{'count'} = 5; }
   &terror('ping_err_tmpack') if (length($in{'count'}) > 2);
 
   if ($gconfig{'os_type'} eq "solaris") { $ping_cnt=$in{'count'} }

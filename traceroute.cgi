@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Traceroute
-#    Copyright (C) 1999-2000 by Tim Niemueller
+#    Copyright (C) 1999-2003 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,11 +22,13 @@ require './nettools-lib.pl';
 &ReadParse();
 
 $binary = $config{'ipv6'} ? "${binary}6" : $binary;
-my $execline = &CheckAll() if($ENV{'REQUEST_METHOD'} ne 'GET');
+my $execline = "";
+if ($in{'host'}) {
+  $execline = &CheckAll();
+}
 
 &header($text{'traceroute_title'}, undef, "traceroute", 0, 0, 0,
-        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
-print "<BR><HR>\n";
+        "<a href=\"about.cgi\">$text{'about'}</a>");
 
 if ($execline) {
 
@@ -47,67 +49,52 @@ if ($execline) {
 
 print <<EOM;
 
+<br/>
 <FORM METHOD="POST" ACTION="$progname">
 
-<BR>
-<TABLE BORDER=1 CELLPADDING=3 CELLSPACING=0 $cb WIDTH=100%>
-<TR><TD>
+$text{'hostname'}:
+<INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}">
 
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
-<TR><TD $tb>
-
-<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0 $tb WIDTH=100%>
-<TR>
-<TD><B>$text{'traceroute_title'} $text{'interface'}</B></TD>
-</TR></TABLE>
-
-</TD></TR>
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
-
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
-<TR>
-<TD>$text{'hostname'}</TD>
-<TD><INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
+<br/><br/>
+<table border="0" width="100%">
+<tr><td valign="top">
 EOM
-print "<TD><INPUT TYPE=checkbox NAME=\"verbosity\" VALUE=\"X\"";
+
+print "<INPUT TYPE=checkbox NAME=\"verbosity\" VALUE=\"X\"";
 if ($in{'verbosity'} eq "X") { print " checked" }
-print "> $text{'traceroute_verbout'}</TD>";
+print "> $text{'traceroute_verbout'}<br/>";
 
-print "<TD><INPUT TYPE=checkbox NAME=\"numeric\" VALUE=\"X\"";
+print "<INPUT TYPE=checkbox NAME=\"numeric\" VALUE=\"X\"";
 if ($in{'numeric'} eq "X") { print " checked" }
-print "> $text{'traceroute_numout'}</TD>";
+print "> $text{'traceroute_numout'}<br/>";
 
-print "<TD><INPUT TYPE=checkbox NAME=\"bypass\" VALUE=\"X\"";
+print "<INPUT TYPE=checkbox NAME=\"bypass\" VALUE=\"X\"";
 if ($in{'bypass'} eq "X") { print " checked" }
-print "> $text{'traceroute_bypass'}</TD>";
+print "> $text{'traceroute_bypass'}<br/>";
+
+print "<INPUT TYPE=checkbox NAME=\"icmp\" VALUE=\"X\"";
+if ($in{'icmp'} eq "X") { print " checked" }
+print "> $text{'traceroute_icmp'}<br/>";
+
+print "<INPUT TYPE=checkbox NAME=\"toggle\" VALUE=\"X\"";
+if ($in{'toggle'} eq "X") { print " checked" }
+print "> $text{'traceroute_toggle'}<br/>";
+
+print "<INPUT TYPE=checkbox NAME=\"debug\" VALUE=\"X\"";
+if ($in{'debug'} eq "X") { print " checked" }
+print "> $text{'traceroute_debug'}<br/>";
+
 
 print <<EOM;
-</TR></TABLE>
-</TD></TR>
-<TR><TD><TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+</td><td valign="top">
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2>
 EOM
-
-print "<TD><INPUT TYPE=checkbox NAME=\"icmp\" VALUE=\"X\"";
-if ($in{'icmp'} eq "X") { print " checked" }
-print "> $text{'traceroute_icmp'}</TD>";
-
-print "<TD><INPUT TYPE=checkbox NAME=\"toggle\" VALUE=\"X\"";
-if ($in{'toggle'} eq "X") { print " checked" }
-print "> $text{'traceroute_toggle'}</TD>";
-
-print "<TD><INPUT TYPE=checkbox NAME=\"debug\" VALUE=\"X\"";
-if ($in{'debug'} eq "X") { print " checked" }
-print "> $text{'traceroute_debug'}</TD> <TD> </TD>";
-
-print "<TD ROWSPAN=4 ALIGN=center VALIGN=center><INPUT TYPE=submit NAME=\"trace\" VALUE=\"  Trace It!  \"></TD></TR>";
 
 print "<TR><TD>$text{'traceroute_hops'}</TD>";
 print "<TD ALIGN=left> <INPUT TYPE=text NAME=\"hops\" SIZE=5 VALUE=\"";
 if ($in{'hops'}) {print "$in{'hops'}"} else {print "30"}
 
-print "\"></TD><TD>$text{'traceroute_packlen'}</TD>";
+print "\"></TD></tr><tr><TD>$text{'traceroute_packlen'}</TD>";
 print "<TD ALIGN=left> <INPUT TYPE=text NAME=\"length\" SIZE=5 VALUE=\"";
 if ($in{'length'}) {print "$in{'length'}"} else {print "40"}
 
@@ -115,7 +102,7 @@ print "\"></TD></TR><TR><TD>$text{'traceroute_waittime'}</TD>";
 print "<TD ALIGN=left> <INPUT TYPE=text NAME=\"wait\" SIZE=5 VALUE=\"";
 if ($in{'wait'}) {print "$in{'wait'}"} else {print "5"}
 
-print "\"></TD><TD>$text{'traceroute_ittl'}</TD>";
+print "\"></TD></tr><tr><TD>$text{'traceroute_ittl'}</TD>";
 print "<TD ALIGN=left>";
 if ($gconfig{'os_type'} eq "freebsd") { print $text{'traceroute_nofreebsd'} }
 elsif ($gconfig{'os_type'} eq "debian-linux") { print $text{'traceroute_nodebian'} }
@@ -127,16 +114,15 @@ else {
 print "</TD></TR>";
 
 print <<EOM;
-<TR><TD><TD>$text{'traceroute_interface'}:</TD>
-<TD ALIGN=left COLSPAN=3><INPUT TYPE=text NAME=\"iface\" SIZE=5 VALUE=\"$in{'iface'}\"></TD></TR>
+<TR><TD>$text{'traceroute_interface'}:</TD>
+<td><INPUT TYPE=text NAME=\"iface\" SIZE=5 VALUE=\"$in{'iface'}\"></TD></TR>
 </TABLE>
-</TD></TR></TABLE>
-</TD></TR></TABLE>
-</TD></TR>
+</td></tr></table>
 
-</TABLE>
+<br/>
+<INPUT TYPE=submit NAME="trace" VALUE="  Trace It!  ">
 </FORM>
-
+<br/>
 EOM
 
 &footer("", $text{'traceroute_return'});
@@ -187,6 +173,8 @@ sub CheckAll {
     &terror('traceroute_err_length') if (length($in{'length'}) > 3);
 
     $trace_opt = "$trace_opt $in{'host'} $in{'length'}";
+  } else {
+    $trace_opt = "$trace_opt $in{'host'}";
   }
 
 return "$binary $trace_opt 2>&1";

@@ -6,6 +6,7 @@ nslookup_path=
 nmap_path=
 ping_path=
 dig_path=
+whois_path=
 traceroute_path=
 nslookup_opt=
 nmap_opt=

@@ -35,7 +35,7 @@ $allow = $config{"allow_other_if_failed"};
 $cl=$text{'config_link'};
 
 @programs=($config{"ping_path"}, $config{"traceroute_path"},$config{"nslookup_path"},
-           $config{"nmap_path"},$config{"dig_path"});
+           $config{"nmap_path"},$config{"dig_path"}, $config{'whois_path'});
 @programnames=("ping", "traceroute", "nslookup", "nmap", "dig");
 @programbuttons=("   $text{'lib_ping'}   ", "  $text{'lib_traceroute'}  ", "  $text{'lib_lookup'}  ",
                  "  $text{'lib_nmap'}  ", "   $text{'lib_dig'}   ");
@@ -73,7 +73,7 @@ sub init_command {
     &error(&text('lib_init_fne', $binary, $cl))
    }
   } else {
-   if (! has_command($binary) && &indexof($binary, @progs_wo_bin) < 0) {
+   if (! has_command($binary) && indexof($binary, @progs_wo_bin) < 0) {
     &error(&text('lib_init_dfnf', $binary, $cl))
    }
   }  
@@ -85,5 +85,9 @@ sub is_number {
  return ($_[0] =~ /^\d+$/);
 }
 
-$version="0.88.1";
+
+my %modconf;
+read_file("module.conf", \%modconf);
+$version=$modconf{'VERSION'};
+
 ### END.

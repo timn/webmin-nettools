@@ -38,6 +38,7 @@ interface=Interface
 hostname=Hostname
 default=Default
 running=Running the <I>$1</I>
+about=About
 
 lib_ping=Ping It!
 lib_traceroute=Trace It!
@@ -184,13 +185,5 @@ whois_domain=Domain
 whois_server=Server
 whois_button=Who is it !?
 whois_return=module index
-whois_=
-whois_=
-whois_=
-whois_=
-whois_=
-whois_=
-whois_=
-whois_=
-whois_=
 
+dispatch_invserv=Invalid service. Not known.

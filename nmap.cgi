@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #    Network Utilities Webmin Module - Nmap
-#    Copyright (C) 1999-2001 by Tim Niemueller <tim@niemueller.de>
+#    Copyright (C) 1999-2003 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,6 +15,9 @@
 
 #    Created  : 31.08.1999
 
+# Note to myself:
+# this file is in a bad shape. Uses too many global vars. Try to clean up
+# when time left
 
 require './nettools-lib.pl';
 &init_command('nmap');
@@ -44,7 +47,10 @@ for (keys %NmapTypes) {
 }
 
 
-&CheckAll() if ($ENV{'REQUEST_METHOD'} ne 'GET');
+my $execline = "";
+if ($in{'host'}) {
+  &CheckAll();
+}
 
 $Errors="<H3><FONT COLOR=\"red\">\n";
 foreach $tmperr (@error) {
@@ -53,8 +59,7 @@ foreach $tmperr (@error) {
 $Errors .= '</FONT></H3>';
 
 &header($text{'nmap_title'}, undef, undef, 0, 0, 0,
-        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
-print "<BR><HR>\n";
+        "<a href=\"about.cgi\">$text{'about'}</a>");
 
 if ($execline && !$critical_err) {
 
@@ -81,26 +86,12 @@ if ($execline && !$critical_err) {
 
 print <<EOM;
 
+<br/>
 <FORM METHOD="POST" ACTION="$progname">
 
-<BR>
-<TABLE BORDER=1 CELLPADDING=3 CELLSPACING=0 $cb WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR><TD>
-
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
-<TR><TD $tb>
-
-<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0 $tb WIDTH=100%>
-<TR>
-<TD><B>$text{'nmap_title'} $text{'interface'}</B></TD>
-</TR></TABLE>
-
-</TD></TR>
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
-
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR>
 <TD>$text{'hostname'}:</TD>
 <TD><INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
@@ -108,7 +99,8 @@ print <<EOM;
 <TD><SELECT NAME="scantype">$options</SELECT></TD>
 </TR></TABLE>
 </TD></TR>
-<TR><TD><TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
+<tr><td><br/>&nbsp;</td></tr>
+<TR><TD><TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 EOM
 
 print "<TR><TD><INPUT TYPE=checkbox NAME=\"verbosity\" VALUE=\"1\"";
@@ -117,9 +109,7 @@ print "> $text{'nmap_verbout'}</TD>";
 
 print "<TD><INPUT TYPE=checkbox NAME=\"p0\" VALUE=\"1\"";
 if ($in{'p0'}) { print " checked" }
-print "> $text{'nmap_noping'}</TD>";
-
-print "<TD ROWSPAN=7><INPUT TYPE=submit VALUE=\"   $text{'lib_nmap'}   \" NAME=\"nmap\"></TD></TR>";
+print "> $text{'nmap_noping'}</TD></tr>";
 
 print "<TR><TD><INPUT TYPE=checkbox NAME=\"pt\" VALUE=\"1\"";
 if ($in{'pt'}) { print " checked" }
@@ -171,13 +161,11 @@ print "> $text{'nmap_maxsock'}: <INPUT TYPE=text NAME=\"sockets\" SIZE=5 VALUE=\
 
 print <<EOM;
 </TABLE>
-</TD></TR></TABLE>
-</TD></TR></TABLE>
-</TD></TR>
-
-</TABLE>
+</td></tr></table>
+<br/>
+<INPUT TYPE=submit VALUE="   $text{'lib_nmap'}   " NAME="nmap">
 </FORM>
-
+<br/>
 EOM
 
 
@@ -208,8 +196,9 @@ if ($in{'host'} eq '') {
 	$critical_err = 1;
 }
 
-if ($in{'nmap'}) {
-
+if (! $in{'scantype'}) {
+  $in{'scantype'} = "-sT";
+}
 $nmap_opt="$in{'scantype'}";
 
 if ($in{'verbosity'}) { $nmap_opt .= " -v" }
@@ -219,14 +208,11 @@ if ($in{'pt'}) {
  $in{'ptport'} =~ s/\ //g;
  if (!$in{'ptport'}) {
       push(@error, $text{'nmap_err_ack'});
- }
- elsif ($in{'ptport'} < 0) {
+ } elsif ($in{'ptport'} < 0) {
       push(@error, $text{'nmap_err_lowport'});
- }
- elsif ($in{'ptport'} > 65535) {
+ } elsif ($in{'ptport'} > 65535) {
       push(@error, $text{'nmap_err_highport'});
- }
- else {
+ } else {
   $nmap_opt .= " -PT$in{'ptports'}";
  }
 }
@@ -308,7 +294,7 @@ if ($in{'m'}) {
 
 $execline ="$binary $nmap_opt $in{'host'} 2>&1";
 
-} # End IF Nmap
+return $execline;
 } # End Sub CheckAll
 
 ### End of nmap.cgi ###

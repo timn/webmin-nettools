@@ -15,7 +15,6 @@
  Created  : 22.07.1998
 
 
-
  Changes
  =========================================================================================
 
@@ -68,6 +67,17 @@
                on my website if they really want
              - Make ping and traceroute pages to support the IPv6 equivalents
              - Cleaned up index.cgi, fixed error handling, added IPv6 support
+ 12.02.2003  - An even longer time with no update. But there are some glitches that just
+ (1.060.1)     needed a fix...
+             - Removed dependancy for the whois perl module. Now using console tool like
+               for all other programs. Do not remeber why I used this Perl module but it
+               really sucks. On almost all machines is an whois console program, but on
+               almost no machine is that perl module...
+             - cleaned up code. Maybe in next version I can merge everything into one file
+             - Removed exec code from index.cgi, whas just redundant and error begging
+             - Create dispatch.cgi for scripts called from index.cgi. Right now BadCode
+               (Will use that although Medha has registered that Domain :-)
+             - IP Subnet Claculator is more or less untouched
 
  =========================================================================================
 

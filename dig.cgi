@@ -1,8 +1,7 @@
 #!/usr/bin/perl
 #
-
 #    Network Utilities Webmin Module - Dig
-#    Copyright (C) 1999-2001 by Tim Niemueller
+#    Copyright (C) 1999-2003 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -42,7 +41,10 @@ for (sort keys %LookupOpt) {
 
 &ReadParse();
 
-&CheckAll() if ($ENV{'REQUEST_METHOD'} ne 'GET');
+my $execline="";
+if ($in{'host'}) {
+  $execline = CheckAll();
+}
 
 $Errors="<H3><FONT COLOR=\"red\"><BR>";
 foreach $tmperr (@error) {
@@ -51,8 +53,7 @@ foreach $tmperr (@error) {
 $Errors .= '</FONT></H3>';
 
 &header($text{'dig_title'}, undef, undef, 1, 0, 0,
-        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
-print "<BR><HR>\n";
+        "<a href=\"about.cgi\">$text{'about'}</a>");
 
 if ($execline && !$critical_err) {
 
@@ -76,31 +77,16 @@ if ($execline && !$critical_err) {
 
 print <<EOM;
 
+<br/>
 <FORM METHOD="POST" ACTION="$progname">
 
-<BR>
-<TABLE BORDER=1 CELLPADDING=3 CELLSPACING=0 $cb WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR><TD>
-
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
-<TR><TD $tb>
-
-<TABLE BORDER=0 CELLSPACING=3 CELLPADDING=0 $tb WIDTH=100%>
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
 <TR>
-<TD><B>$text{'dig_name'} $text{'interface'}</B></TD>
-</TR></TABLE>
-
-</TD></TR>
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
-
-<TR><TD>
-<TABLE BORDER=0 $cb CELLPADDING=0 CELLSPACING=2 WIDTH=100%>
-<TR>
-<TD>$text{'hostname'} <INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
-<TD>$text{'dig_type'}: <SELECT NAME="type">$options</SELECT></TD>
-<TD ROWSPAN=2 ALIGN=center VALIGN=center><INPUT TYPE=submit NAME=\"dig\" VALUE=\"   $text{'lib_dig'}   \"></TD></TR>
-<TR><TD>$text{'dig_nameserver'}: <INPUT TYPE=radio NAME="nsdefault" VALUE="1"
+<TD>$text{'hostname'}:</td><td><INPUT TYPE=text NAME="host" SIZE=20 VALUE="$in{'host'}"></TD>
+<TD>$text{'dig_type'}:</td><td><SELECT NAME="type">$options</SELECT></TD></tr>
+<TR><TD>$text{'dig_nameserver'}:</td><td><INPUT TYPE=radio NAME="nsdefault" VALUE="1"
 EOM
 
 if ($in{'nsdefault'}) {print " checked"}
@@ -109,20 +95,18 @@ print "> $text{'default'} <INPUT TYPE=radio NAME=\"nsdefault\" VALUE=\"0\"";
 if (!$in{'nsdefault'}) {print " checked"}
 print "> <INPUT TYPE=text NAME=\"nameserver\" SIZE=20 VALUE=\"$in{'nameserver'}\"></TD>";
 
-print "<TD>$text{'dig_dottednot'} <INPUT TYPE=checkbox NAME=\"dotted\" VALUE=\"1\"";
+print "<TD>$text{'dig_dottednot'}</td><td><INPUT TYPE=checkbox NAME=\"dotted\" VALUE=\"1\"";
 if ($in{'dotted'}) { print " checked" }
 print "></TD></TR>";
 
 
 print <<EOM;
-</TR></TABLE>
-</TD></TR>
-</TABLE>
 </TD></TR></TABLE>
-</TD></TR>
-
-</TABLE>
+</TD></TR></TABLE>
+<br/>
+<INPUT TYPE=submit NAME="dig" VALUE="   $text{'lib_dig'}   ">
 </FORM>
+<br/>
 
 EOM
 

@@ -20,19 +20,10 @@ require './nettools-lib.pl';
 &ReadParse();
 
 
-if($ENV{'REQUEST_METHOD'} eq 'GET') { &CheckBinaries }
-else { &CheckAll; &PrintScreen }
-
-##################################################################
-
-sub CheckBinaries {
- if (!$allow)
- {
- 
+if (!$allow) {
   $whatfailed=$text{'index_error'};
  
-  for (my $i=0; $i <= $programcount-1; $i++)
-  {
+  for (my $i=0; $i <= $programcount-1; $i++) {
 
    if ($programs[$i]) {
     if (! -e $programs[$i]) {
@@ -49,13 +40,10 @@ sub CheckBinaries {
 
  } # End if allow eq no
 
- &PrintScreen;
-}
 
-sub PrintScreen {
 
 &header($text{'index_title'}, undef, "intro", 1, 1, undef,
-        "Written by<BR>Tim Niemueller<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+        "<a href=\"about.cgi\">About</a>");
 
 my @images = ("images/icon.ping.gif", "images/icon.traceroute.gif", "images/icon.lookup.gif",
               "images/icon.nmap.gif", "images/icon.ipsc.gif", "images/icon.whois.gif",
@@ -71,33 +59,9 @@ print "<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>";
 print "<TR><TD ALIGN=right><FONT FACE=\"Arial,Helvetica\" COLOR=#505050>";
 print "[ Network Utilities $version ]</FONT></TD></TR></TABLE>\n";
 
-if ($execline) {
-
-  print "<BR><BR>";
-
-  for (my $i=0; $i <= $programcount-1; $i++) {
-    if ($in{"$programnames[$i]"}) {
-      print &text('index_running', $programnames[$i]);
-    }
-  }
-
-  print "<HR SIZE=4 NOSHADE ALIGN=center>\n$Errors";
-
-  print "<PRE>\n$execline\n";
-    open (CHILD, "$execline |");
-     while (<CHILD>) {
-       print $_;
-     }
-    close (CHILD);
-  print "</PRE>\n<HR SIZE=4 NOSHADE ALIGN=center>\n\n";
-
-}
-
-
 
 print <<EOM;
-
-<FORM METHOD="POST" ACTION="$progname">
+<FORM METHOD="POST" ACTION="dispatch.cgi">
 
 <BR>
 <TABLE BORDER=1 CELLPADDING=3 CELLSPACING=0 $cb WIDTH=100%>
@@ -106,7 +70,7 @@ print <<EOM;
 <TABLE BORDER=0 $tb CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
 <TR><TD $tb>
 
-<TABLE BORDER=0 CELLSPACING=0 CELLPADDING=2 $tb WIDTH=100%>
+<TABLE BORDER=0 CELLSPACING=2 CELLPADDING=2 $tb WIDTH=100%>
 <TR>
 <TD ALIGN=center WIDTH=20%><B>$text{'hostname'}</B></TD>
 EOM
@@ -152,34 +116,9 @@ print <<EOM;
 </TD></TR></TABLE>
 </FORM>
 
+<br/><br/>
 EOM
 
 &footer("/", $text{'index_return'});
-
-} # end of sub PrintScreen
-
-sub CheckAll {
-
-  # Check host, or IP
-  &terror('error_nohost') if (! $in{'host'});
-  &terror('error_longhostname') if (length($in{'host'}) > 64);
-  &terror('error_badchar', $in{'host'}) if ($in{'host'} =~ /[^\w\-\.]/);
-
-  for (my $i=0; $i <= $programcount-1; $i++) {
-    if ($in{"$programnames[$i]"}) {
-      if ($programs[$i]) { $binary=$programs[$i] } else { $binary=$programnames[$i] }
-
-      if ($config{"$programnames[$i]_opt"}) {
-        $options = $config{"$programnames[$i]_opt"};
-      } else {
-        $options = $standopt[$i];
-      }
-
-      $options =~ s/HOST/$in{'host'}/;
-      $binary= (($binary =~ /(ping|traceroute)$/) && $config{'ipv6'}) ? "${binary}6" : $binary;
-      $execline = "$binary $options";
-    }
-  } ## End For
-} # End Sub CheckAll
 
 ### End of index.cgi ###
