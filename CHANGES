@@ -52,6 +52,8 @@
                otherwise it doesn't work with Webmin 0.79 !?
  29.06.2000  - Smaller bug fixes and support for simplified chinese. Thanks to
                Leo Liang <leo.liang@turbolinux.com.cn> for this!
+ 21.07.2000  - Removed OS support restrictions. This module should run on any Webmin
+ (0.80.2)      supported platform. This version requires Webmin 0.80+.
 
  =========================================================================================
 
