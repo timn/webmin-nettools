@@ -1,0 +1,55 @@
+<header>Network Utilities - Ping</header>
+
+Ping is a tool for checking network connectivity. See man page
+(man 8 ping) for more details.
+<HR>
+
+<B>Contents:</B>
+<FONT SIZE=2>
+<UL>
+ <LI><A HREF="#1">How many Packets?</A></LI>
+ <LI><A HREF="#2">Packet Size</A></LI>
+ <LI><A HREF="#3">How many sec between sending each packet?</A></LI>
+ <LI><A HREF="#4">Pattern(s) to send (Hex)?</A></LI>
+ <LI><A HREF="#5">Verbosity Output?</A></LI>
+ <LI><A HREF="#6">Numeric Output only?</A></LI>
+ <LI><A HREF="#7">Bypass routing tables?</A></LI>
+</UL>
+</FONT><P>
+<HR>
+
+<A NAME="1"><H3>How many Packets?</H3></A>
+How many Packets should this ping command send. 5 is the best in
+most cases. If you want to check the network for a longer time you
+can set a higher value here. 99 is the maximum.<P>
+
+<A NAME="2"><H3>Packet Size</H3></A>
+From the man page of ping: An IP header without options is 20
+bytes. An ICMP ECHO_REQUEST (Ping) packet contains additional 8
+bytes worth of ICMP header followedby an arbitrary ammount of data.<BR>
+Standard is 56, maximum is 9999 bytes.<P>
+
+<A NAME="3"><H3>How many sec between sending each packet?</H3></A>
+How many sec should ping wait after sending a packet before it
+sends the next packet.<P>
+
+<A NAME="4"><H3>Pattern(s) to send (Hex)?</H3></A>
+The data which is send by ping will be filled with this (hex-)pattern.
+If you leave this blank ping will fill it with random data. This is useful
+if you do not have problems with connectivity itself but with data loss.<P>
+
+<A NAME="5"><H3>Verbosity Output?</H3></A>
+From the man page of ping: ICMP packets other than ECHO_Response that are
+received are listed.<P>
+
+<A NAME="6"><H3>Numeric Output only?</H3></A>
+From the man page of ping: No attempt will be made to lookup symbolic names
+for host addresses.<P>
+
+<A NAME="7"><H3>Bypass routing tables?</H3></A>
+From the man page of ping: If the host is not a directly-attached network,
+an error is returned. This option can be used to ping a local host through
+an interface that has no route through it.<P>
+
+<hr>
+

@@ -1,0 +1,196 @@
+
+lang=en
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2000 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=Check <A HREF=../config.cgi?nettools>Module Configuration</A>
+
+index_title=Network Utilities
+index_error=Failed to load <I>Network Utilities</I>
+index_err_fnex=File "$1" does not exist. $2
+index_err_fne=File "$1" is not executable. $2
+index_err_dfnf=$1 command could not been found. $2
+index_ping=Ping
+index_traceroute=Traceroute
+index_lookup=Lookup
+index_nmap=Nmap
+index_ipsc=IP Subnet Calculator
+index_whois=Whois
+index_dig=Dig
+index_err_crit_ping=Ping - Critical Error
+index_err_crit_traceroute=Traceroute - Critical Error
+index_err_crit_nslookup=Lookup - Critical Error
+index_err_crit_nmap=Nmap - Critical Error
+index_err_crit_dig=Dig - Critical Error
+index_running=Running the <I>$1</I>
+index_na=N/A
+index_deny_user=No Access for $1
+index_return=webmin index
+
+error_nohost=No host name specified. Please try again.
+error_longhostname=Host name is too long. Maximum 64 characters allowed. Please try again.
+error_badchar=Host name <FONT COLOR="blue">$1</FONT> contains bad characters. Please correct and try again.
+error_crit=$1 - Critical Error
+
+interface=Interface
+hostname=Hostname
+default=Default
+running=Running the <I>$1</I>
+
+lib_ping=Ping It!
+lib_traceroute=Trace It!
+lib_lookup=Look Up!
+lib_nmap=Scan It!
+lib_dig=Dig It!
+lib_accden=Access denied: User <I>$1</I> is not allowed to use <I>$2</I> command
+lib_init_error=Failed to load <I>Network Utilities</I>
+lib_init_fnex=File "$1" does not exist. $2
+lib_init_fne=File "$1" is not executable. $2
+lib_init_dfnf=$1 command could not been found. $2
+
+lookup_title=Lookup
+lookup_opt_a=Network address (A)
+lookup_opt_cname=Canonical Names (CNAME)
+lookup_opt_any=All information (ANY)
+lookup_opt_mx=Mail exchanger (MX)
+lookup_opt_ns=Name servers (NS)
+lookup_opt_soa=Zone of authority (SOA)
+lookup_opt_hinfo=Host information (HINFO)
+lookup_opt_minfo=Mailbox/Maillist information (MINFO)
+lookup_opt_ptr=IP to host lookup (PTR)
+lookup_opt_txt=Text information (TXT)
+lookup_opt_uinfo=User information (UINFO)
+lookup_opt_wks=Well known Services (WKS)
+lookup_nameserver=Nameserver
+lookup_default=Default
+lookup_timeout=Timeout?
+lookup_return=module index
+lookup_inv_timeout=Invalid timeout. Using standard. Maximum is 99.
+
+dig_title=Dig
+dig_name=Dig
+dig_type=Type
+dig_nameserver=Nameserver
+dig_dottednot=Dotted Notation?
+dig_return=module index
+dig_err_dotted=You must give an IP address when enabling Dotted option
+
+ipsc_lib_err_b=Calculating the Subnet failed: Subnet-Bits exceed Class-Maximum. <B>16</B> is Maximum for class <B>B</B>
+ipsc_lib_err_c=Calculating the Subnet failed: Subnet-Bits exceed Class-Maximum. <B>8</B> is Maximum for class <B>C</B>
+ipsc_lib_err_nan=Calculating the subnet by number of hosts failed: Value is not a number (NaN).
+ipsc_lib_err_toobig=Calculating the subnet by number of hosts failed: Value is above the Maximum of ". &pow(2, 24) . "."
+ipsc_lib_err_nothing=How do I calculate nothing?
+ipsc_lib_err_startgtend=Error: Start must be smaller than end.
+ipsc_lib_err_bitsnan=Giving output failed: $1 is not a number (NaN). Contact <A HREF=\"mailto:tim\@niemueller.de\">Tim Niemueller</A>
+ipsc_lib_classinfo=Information about Network <B>Class $1</B>
+ipsc_lib_iprange=IP-Range
+ipsc_lib_classmask=Classmask
+ipsc_lib_hexclassmask=Hex Clasmask
+ipsc_lib_netmaskinfo=Information about Netmask for this class with <I>$1 bits</I>
+ipsc_lib_subnets=No. of Subnets
+ipsc_lib_hosts=No. of Hosts per Subnet
+ipsc_lib_netmask=Netmask
+ipsc_lib_bitmap=Bitmap (n = network, s = subnet, h = host)
+
+ipsc_title=IP Subnet Calculator
+ipsc_class_n_bits=Calculate Netmask by <I>Class</I> and <I>Bits</I>
+ipsc_class=Class
+ipsc_subnetbits=Subnet Bits
+ipsc_calc=Calculate Subnet
+ipsc_bynumber=Calculate Netmask by <I>Number of Hosts</I>
+ipsc_number=Number of Hosts
+ipsc_return=module index
+
+nmap_title=Nmap
+nmap_tcpconnect=TCP connect()
+nmap_syn=TCP SYN
+nmap_stealth=Stealth FIN
+nmap_xmastree=Xmas Tree
+nmap_null=Null mode
+nmap_ping=Ping
+nmap_udp=UDP
+nmap_scantype=Type of Scan
+nmap_verbout=Verbosity Output?
+nmap_noping=Do not try to Ping hosts at all before scanning them?
+nmap_ackport=Spew out ACK packet throughput of target on the following port
+nmap_ping=Use true ping to detect if hosts are up
+nmap_ackping_parallel=Use ACK and ICMP ping in parallel
+nmap_osdet=Try to detect OS type through TCP/IP-fingerprint
+nmap_ident=TCP reverse ident scanning
+nmap_tinyfrag=Use tiny fragmented IP packets for SYN, FIN. XMAS or NULL scans
+nmap_scanports=Scan the following ports
+nmap_fastscan=Fast Scan: Scan only ports listed in /etc/services
+nmap_decoys=Decoys
+nmap_interface=Interface to use
+nmap_sport=Source port to use
+nmap_maxsock=Maximum sockets to use
+nmap_return=module index
+nmap_err_ack=Why enabling ACK packet option when not using it?
+nmap_err_lowport=Port must be greater than 0. Using standard.
+nmap_err_highport=Port must be less then 65536. Using standard.
+nmap_err_port=Why enabling Port option when not using it?
+nmap_err_ports=Ports must be numbers separated by commas. Using standard.
+nmap_err_decoys=Why enabling decoys option when not using it?
+nmap_err_iface=Why enabling interface option when not using it?
+nmap_err_sport=Why enabling local source port option when not using it?
+nmap_err_maxsock=Why enabling max sockets option when not using it?
+nmap_err_lowsock=Socket must be greater than 0 if used. Using standard.
+nmap_err_bigsock=Socket must be less then 16 if used. Using standard.
+
+ping_title=Ping
+ping_verbout=Verbosity Output?
+ping_numout=Numeric Output only?
+ping_bypass=Bypass routing tables?
+ping_numpack=How many Packets?
+ping_packsize=Packet Size?
+ping_packsec=How many sec between sending each packet?
+ping_pattern=Pattern(s) to send (Hex)?
+ping_nasolaris=N/A on Solaris
+ping_return=module index
+ping_err_tmpack=Too many packets. Using standard (5), maximum is 99.
+ping_err_zeropack=Zero packet count not allowed.  Using standard (5), maximum is 99.
+ping_err_nothing=Nothing to send? Using standard
+ping_err_bigpack=Packets to big. Using standard (56 bytes). Maximum is 9999 bytes.
+ping_err_time=Time exceeds limit. Using standard (1 second). Maximum is 99 seconds.
+ping_err_bigpatt=Too many pattern-bytes. Using standard (random bytes). Maximum is 16 bytes (32 characters in hex).
+
+traceroute_title=Traceroute
+traceroute_verbout=Verbosity Output?
+traceroute_numout=Numeric Output only?
+traceroute_bypass=Bypass routing tables?
+traceroute_icmp=Use ICMP instead of UDP?
+traceroute_toggle=Toggle Checksums?
+traceroute_debug=Socket level debugging?
+traceroute_hops=How many Hops?
+traceroute_packlen=Packet Length?
+traceroute_waittime=How many sec between sending each packet?
+traceroute_ittl=Initial time-to-live?
+traceroute_nofreebsd=N/A for FreeBSD
+traceroute_nodebian=N/A for Debian Linux
+traceroute_interface=Interface
+traceroute_err_hops=Too many HOPs. Using standard (30). Maximum is 99.
+traceroute_err_iface=Interface Name too long. Maximum are 6 characters.
+traceroute_err_time=Too many sec. Using standard (5). Maximum is 99.
+traceroute_err_ittl=Too high initial time-to-live. Using standard. Maximum is 99.
+traceroute_err_length=Too long packets. Using standard (40 bytes). Maximum is 999 bytes.
+traceroute_return=module index
+
+whois_error=Failed to load <I>Whois Interface</I>
+whois_title=Whois
+whois_err_xwhois=The Net::XWhois Perl module is not available on this system.
+whois_domain=Domain
+whois_server=Server
+whois_button=Who is it !?
+whois_return=module index
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+whois_=
+

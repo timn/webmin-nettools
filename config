@@ -1,0 +1,12 @@
+traceroute_opt=
+ping_opt=
+allow_other_if_failed=1
+keepresults=1
+nslookup_path=
+nmap_path=
+ping_path=
+dig_path=
+traceroute_path=
+nslookup_opt=
+nmap_opt=
+dig_opt=

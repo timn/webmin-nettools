@@ -1,0 +1,6 @@
+name=nettools
+desc=Network Utilities
+desc_de=Netzwerk Werkzeuge
+category=net
+os_support=solaris redhat-linux debian-linux slackware-linux suse-linux aix hpux freebsd osf1 irix
+depend=0.76

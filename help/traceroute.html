@@ -1,0 +1,69 @@
+<header>Network Utilities - Traceroute</header>
+
+Traceroute is a tool to print the route a packet takes
+to a network host.
+<HR>
+
+<B>Contents:</B>
+<FONT SIZE=2>
+<UL>
+ <LI><A HREF="#1">How many Hops?</A></LI>
+ <LI><A HREF="#2">Packet Length</A></LI>
+ <LI><A HREF="#3">How many sec between sending each packet?</A></LI>
+ <LI><A HREF="#4">Initial Time-To-Live</A></LI>
+ <LI><A HREF="#5">Verbosity Output?</A></LI>
+ <LI><A HREF="#6">Numeric Output only?</A></LI>
+ <LI><A HREF="#7">Bypass routing tables?</A></LI>
+ <LI><A HREF="#8">Use ICMP instead of UDP?</A></LI>
+ <LI><A HREF="#9">Toggle checksums?</A></LI>
+ <LI><A HREF="#10">Socket level debugging?</A></LI>
+</UL>
+</FONT><P>
+<HR>
+
+<A NAME="1"><H3>How many Hops?</H3></A>
+Every Hop is a point which reported an ICMP TIME_EXCEEDED. Some packets
+take several dozen hops until it reaches its destination. But normally not
+in an Local Area Network ;) Standard is 30 and myximum is 99.<P>
+
+<A NAME="2"><H3>Packet Length</H3></A>
+The packet length (in bytes) is the size of the data a probe should
+carry with.<P>
+
+<A NAME="3"><H3>How many sec between sending each packet?</H3></A>
+How many sec should traceroute wait after sending a packet before it
+sends the next packet.<P>
+
+<A NAME="4"><H3>Initial Time-To-Live</H3></A>
+To show the route of a packet, traceroute sends several packets with
+an incrementing time-to-live. So one gateway after gateway (which reduces
+the TTL) will answer that this packet has been dropped. If you want traceroute
+to start with the 10th gateway you would enter a Initial TTL of 10.<P>
+
+<A NAME="5"><H3>Verbosity Output?</H3></A>
+Received ICMP packets other than TIME_EXCEEDED and UNREACHABLEs are listed.<P>
+
+<A NAME="6"><H3>Numeric Output only?</H3></A>
+Print hop adresses numerically rather than symbolically and numerically (saces
+a nameserver address-to-name lookup for each gateway found on the path).<P>
+
+<A NAME="7"><H3>Bypass routing tables?</H3></A>
+From the man page of ping: If the host is not a directly-attached network,
+an error is returned. This option can be used to ping a local host through
+an interface that has no route through it.<P>
+
+<A NAME="8"><H3>Use ICMP instead of UDP?</H3></A>
+Use ICMP ECHO instead of UDP datagrams.<P>
+
+<A NAME="9"><H3>Toggle checksums</H3></A>
+Normally, this prevents traceroute from calculating checksums. In some cases,
+the operating system can overwrite parts of the outgoing packet but not
+recalculate the checksum (so in some cases the default is to not calculate
+checksums and using -x causes them to be calculated). Note that checksums
+are usually required for the last hop when using ICMP ECHO probes.<P>
+
+<A NAME="10"><H3>Socket level debugging</H3></A>
+Enable socket level debugging.<P>
+
+<hr>
+

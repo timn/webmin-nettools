@@ -1,0 +1,6 @@
+ping=1
+traceroute=1
+nslookup=1
+ipsc=1
+nmap=1
+whois=1

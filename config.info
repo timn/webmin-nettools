@@ -1,0 +1,13 @@
+ping_path=Path to ping,3,Automatic
+traceroute_path=Path to traceroute,3,Automatic
+nslookup_path=Path to nslookup,3,Automatic
+nmap_path=Path to nmap,3,Automatic
+dig_path=Path to dig,3,Automatic
+ping_opt=Options for quick ping on index ("HOST" is wildcard for hostname),3,Default
+traceroute_opt=Options for quick traceroute on index ("HOST" is wildcard for hostname),3,Default
+nslookup_opt=Options for quick lookup on index ("HOST" is wildcard for hostname),3,Default
+nmap_opt=Options for quick scan (nmap) on index ("HOST" is wildcard for hostname),3,Default
+dig_opt=Options for quick lookup (dig) on index ("HOST" is wildcard for hostname),3,Default
+allow_other_if_failed=Allow other programs to be used if check for one binary fails,1,1-Yes,0-No
+keepresults=Keep results on IP Subnet Calculator if other function is called,1,1-Yes,0-No
+whois_servers=Servers for Whois-queries (Default or comma-separated list),3,Default
